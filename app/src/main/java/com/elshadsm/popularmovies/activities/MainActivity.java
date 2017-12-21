@@ -1,7 +1,9 @@
-package com.elshadsm.popularmovies;
+package com.elshadsm.popularmovies.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.elshadsm.popularmovies.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="movie_poster_image_content_description">poster icon</string>
 </resources>
