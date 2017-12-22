@@ -3,4 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="movie_poster_image_content_description">poster icon</string>
+    <string name="main_menu_popular_item_title">Popular</string>
+    <string name="main_menu_top_rated_item_title">Top Rated</string>
 </resources>

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import com.elshadsm.popularmovies.R;
 import com.elshadsm.popularmovies.models.Movie;
+import com.elshadsm.popularmovies.utils.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,10 +21,15 @@ import java.util.List;
  */
 
 public class MoviePostersAdapter extends ArrayAdapter<Movie> {
-    private static final String LOG_TAG = MoviePostersAdapter.class.getSimpleName();
 
-    public MoviePostersAdapter(@NonNull Context context, List<Movie> movieList) {
-        super(context, 0, movieList);
+    public MoviePostersAdapter(@NonNull Context context) {
+        super(context, 0);
+    }
+
+    public void setMovieList(List<Movie> movieList) {
+        this.clear();
+        this.addAll(movieList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -30,11 +37,14 @@ public class MoviePostersAdapter extends ArrayAdapter<Movie> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Movie movie = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.movie_poster_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.movie_poster_item, parent, false);
         }
         ImageView imageView = convertView.findViewById(R.id.movie_poster);
-        imageView.setImageResource(movie.getPoster());
+        Picasso.with(getContext())
+                .load(NetworkUtils.buildPosterUrl(movie.getPosterPath()))
+                .placeholder(R.drawable.movie_poster_placeholder)
+                .error(R.drawable.movie_poster_error)
+                .into(imageView);
         return convertView;
     }
 }
