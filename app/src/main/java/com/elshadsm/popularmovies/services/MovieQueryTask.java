@@ -20,7 +20,7 @@ public class MovieQueryTask extends AsyncTask<String, Void, List<Movie>> {
 
     private static final String LOG_TAG = MovieQueryTask.class.getSimpleName();
 
-    private MoviePostersAdapter moviePostersAdapter;
+    private final MoviePostersAdapter moviePostersAdapter;
 
     public MovieQueryTask(MoviePostersAdapter moviePostersAdapter) {
         this.moviePostersAdapter = moviePostersAdapter;
@@ -28,6 +28,7 @@ public class MovieQueryTask extends AsyncTask<String, Void, List<Movie>> {
 
     @Override
     protected List<Movie> doInBackground(String... params) {
+        // TODO: Use your own key instead of 'MovieDBConfig.API_KEY' in order to use movie DB API.
         URL moviesRequestUrl = NetworkUtils.buildUrl(MovieDBConfig.API_KEY, params[0]);
         try {
             String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="grid_item_movie_poster_spacing">0dp</dimen>
-    <dimen name="grid_item_movie_poster_width">150dp</dimen>
-    <dimen name="grid_item_movie_poster_height">220dp</dimen>
+    <dimen name="grid_item_movie_poster_width">168dp</dimen>
+    <dimen name="grid_item_movie_poster_height">224dp</dimen>
+
+    <dimen name="size_xl">28dp</dimen>
+    <dimen name="size_l">16dp</dimen>
+    <dimen name="size">4dp</dimen>
+
+    <dimen name="movie_details_image_width">147dp</dimen>
+    <dimen name="movie_details_image_height">196dp</dimen>
+
+    <dimen name="header_text_size">34sp</dimen>
+    <dimen name="headline_text_size">24sp</dimen>
+    <dimen name="medium_text_size">18sp</dimen>
+    <dimen name="small_text_size">14sp</dimen>
 </resources>

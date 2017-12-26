@@ -1,6 +1,9 @@
 package com.elshadsm.popularmovies.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,11 +12,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.elshadsm.popularmovies.R;
+import com.elshadsm.popularmovies.activities.MovieDetailsActivity;
 import com.elshadsm.popularmovies.adapters.MoviePostersAdapter;
+import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.services.MovieQueryTask;
+
+import static com.elshadsm.popularmovies.models.Constants.INTENT_EXTRA_NAME_MOVIE_DETAILS;
 
 /**
  * A fragment containing the list view of Android versions.
@@ -37,11 +45,11 @@ public class MoviePostersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_posters, container, false);
-        moviePostersAdapter = new MoviePostersAdapter(getActivity());
-        gridView = rootView.findViewById(R.id.movie_posters_grid);
-        setMoviePosters(FILTER_TYPE_POPULAR);
+        applyConfiguration(rootView);
+        registerEventHandlers();
+        setMoviePosters(FILTER_TYPE_POPULAR); // The default type.
         return rootView;
     }
 
@@ -52,21 +60,45 @@ public class MoviePostersFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int selectedMenuItem = item.getItemId();
-        if (selectedMenuItem == R.id.action_popular) {
-            setMoviePosters(FILTER_TYPE_POPULAR);
-            return true;
-        }
-        if (selectedMenuItem == R.id.action_top_rated) {
-            setMoviePosters(FILTER_TYPE_TOP_RATED);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_popular:
+                setMoviePosters(FILTER_TYPE_POPULAR);
+                return true;
+            case R.id.action_top_rated:
+                setMoviePosters(FILTER_TYPE_TOP_RATED);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void applyConfiguration(View rootView) {
+        if (getActivity() == null) {
+            return;
+        }
+        moviePostersAdapter = new MoviePostersAdapter(getActivity());
+        gridView = rootView.findViewById(R.id.movie_posters_grid);
+        gridView.setAdapter(moviePostersAdapter);
+    }
+
+    private void registerEventHandlers() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                startMovieDetailsActivity(view, index);
+            }
+        });
+    }
+
+    private void startMovieDetailsActivity(View view, int index) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        Movie selectedMovie = moviePostersAdapter.getItem(index);
+        intent.putExtra(INTENT_EXTRA_NAME_MOVIE_DETAILS, selectedMovie);
+        context.startActivity(intent);
+    }
+
     private void setMoviePosters(String type) {
         MovieQueryTask movieQueryTask = new MovieQueryTask(moviePostersAdapter);
-        gridView.setAdapter(moviePostersAdapter);
         movieQueryTask.execute(type);
     }
 

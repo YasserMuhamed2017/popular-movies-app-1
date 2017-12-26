@@ -35,16 +35,22 @@ public class MoviePostersAdapter extends ArrayAdapter<Movie> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Movie movie = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.movie_poster_item, parent, false);
         }
+        applyViewConfiguration(position, convertView);
+        return convertView;
+    }
+
+    private void applyViewConfiguration(int position, View convertView) {
+        Movie movie = getItem(position);
         ImageView imageView = convertView.findViewById(R.id.movie_poster);
+        assert movie != null;
         Picasso.with(getContext())
                 .load(NetworkUtils.buildPosterUrl(movie.getPosterPath()))
                 .placeholder(R.drawable.movie_poster_placeholder)
                 .error(R.drawable.movie_poster_error)
                 .into(imageView);
-        return convertView;
     }
+    
 }
