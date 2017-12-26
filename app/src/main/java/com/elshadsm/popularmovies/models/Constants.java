@@ -1,7 +1,7 @@
 package com.elshadsm.popularmovies.models;
 
 /**
- * Created by User-2017 on 25.12.2017.
+ * Created by Elshad Seyidmammadov on 25.12.2017.
  */
 
 public class Constants {
