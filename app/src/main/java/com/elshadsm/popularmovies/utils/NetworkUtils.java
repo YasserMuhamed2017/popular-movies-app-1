@@ -3,6 +3,8 @@ package com.elshadsm.popularmovies.utils;
 import android.net.Uri;
 import android.util.Log;
 
+import com.elshadsm.popularmovies.models.MovieDBConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -22,18 +24,20 @@ public class NetworkUtils {
     private static final String MOVIE_DB_API_AUTHORITY = "api.themoviedb.org";
     private static final String MOVIE_DB_API_FIRST_PATH = "3";
     private static final String MOVIE_DB_API_SECOND_PATH = "movie";
-    private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY = "api_key";
     private static final String MOVIE_DB_API_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private static final String MOVIE_DB_API_POSTER_SIZE = "w500";
+    private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY_NAME = "api_key";
+    // TODO: Use your own key instead of 'MovieDBConfig.API_KEY' in order to use movie DB API.
+    private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY_VALUE = MovieDBConfig.API_KEY;
 
-    public static URL buildUrl(String apiKey, String filterType) {
+    public static URL buildUrl(String filterType) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(MOVIE_DB_API_SCHEME)
                 .authority(MOVIE_DB_API_AUTHORITY)
                 .appendPath(MOVIE_DB_API_FIRST_PATH)
                 .appendPath(MOVIE_DB_API_SECOND_PATH)
                 .appendPath(filterType)
-                .appendQueryParameter(MOVIE_DB_API_QUERY_PARAMETER_API_KEY, apiKey);
+                .appendQueryParameter(MOVIE_DB_API_QUERY_PARAMETER_API_KEY_NAME, MOVIE_DB_API_QUERY_PARAMETER_API_KEY_VALUE);
         URL url = null;
         try {
             url = new URL(builder.build().toString());

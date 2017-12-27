@@ -28,8 +28,7 @@ public class MovieQueryTask extends AsyncTask<String, Void, List<Movie>> {
 
     @Override
     protected List<Movie> doInBackground(String... params) {
-        // TODO: Use your own key instead of 'MovieDBConfig.API_KEY' in order to use movie DB API.
-        URL moviesRequestUrl = NetworkUtils.buildUrl(MovieDBConfig.API_KEY, params[0]);
+        URL moviesRequestUrl = NetworkUtils.buildUrl(params[0]); // params[0] - filterType
         try {
             String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
             return JSONUtils.parseJson(jsonMoviesResponse);
