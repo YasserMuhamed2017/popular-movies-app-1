@@ -1,0 +1,92 @@
+package com.elshadsm.popularmovies.services;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
+
+import com.elshadsm.popularmovies.adapters.MoviePostersAdapter;
+import com.elshadsm.popularmovies.models.Movie;
+import com.elshadsm.popularmovies.utils.JSONUtils;
+import com.elshadsm.popularmovies.utils.NetworkUtils;
+
+import java.net.URL;
+import java.util.List;
+
+import static com.elshadsm.popularmovies.models.Constants.MOVIES_QUERY_LOADER_FILTER_TYPE_EXTRA;
+
+/**
+ * Created by Elshad Seyidmammadov on 22.12.2017.
+ */
+
+public class MoviesQueryLoader implements LoaderManager.LoaderCallbacks<List<Movie>> {
+
+    private static final String LOG_TAG = MoviesQueryLoader.class.getSimpleName();
+
+    private final MoviePostersAdapter moviePostersAdapter;
+    private final Context context;
+
+    public MoviesQueryLoader(@NonNull Context context, MoviePostersAdapter moviePostersAdapter) {
+        this.moviePostersAdapter = moviePostersAdapter;
+        this.context = context;
+    }
+
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        return new MoviesQueryTaskLoader(this.context, args);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movieList) {
+        if (movieList == null) {
+            Log.e(LOG_TAG, "movie list is empty!");
+        } else {
+            moviePostersAdapter.setMovieList(movieList);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Movie>> loader) {
+
+    }
+
+}
+
+class MoviesQueryTaskLoader extends AsyncTaskLoader<List<Movie>> {
+
+    private static final String LOG_TAG = MoviesQueryTaskLoader.class.getSimpleName();
+
+    private final Bundle args;
+
+    public MoviesQueryTaskLoader(@NonNull Context context, Bundle args) {
+        super(context);
+        this.args = args;
+    }
+
+    @Override
+    protected void onStartLoading() {
+        if (this.args == null || !this.args.containsKey(MOVIES_QUERY_LOADER_FILTER_TYPE_EXTRA)) {
+            return;
+        }
+        forceLoad();
+    }
+
+    @Nullable
+    @Override
+    public List<Movie> loadInBackground() {
+        String filterType = this.args.getString(MOVIES_QUERY_LOADER_FILTER_TYPE_EXTRA);
+        URL moviesRequestUrl = NetworkUtils.buildUrl(filterType);
+        try {
+            String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
+            return JSONUtils.parseJson(jsonMoviesResponse);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "filter type: " + filterType, e);
+            return null;
+        }
+    }
+}
+

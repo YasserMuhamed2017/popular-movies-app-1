@@ -59,16 +59,27 @@
                     android:id="@+id/movie_details_release_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/size"
+                    android:layout_marginTop="@dimen/size"
                     android:textSize="@dimen/headline_text_size" />
 
                 <TextView
                     android:id="@+id/movie_details_vote_average"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/size"
+                    android:layout_marginTop="@dimen/size"
                     android:textColor="@color/movie_details_average_vote_text_color"
                     android:textSize="@dimen/small_text_size" />
+
+                <ToggleButton
+                    android:id="@+id/movie_details_mark_as_favorite"
+                    android:layout_width="@dimen/add_favorite_star_size"
+                    android:layout_height="@dimen/add_favorite_star_size"
+                    android:layout_marginTop="@dimen/size_xl"
+                    android:background="@drawable/button_favorite"
+                    android:checked="false"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn=""/>
 
             </LinearLayout>
 

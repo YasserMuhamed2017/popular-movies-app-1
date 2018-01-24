@@ -5,4 +5,10 @@
     <string name="movie_poster_image_content_description">poster icon</string>
     <string name="main_menu_popular_item_title">Popular</string>
     <string name="main_menu_top_rated_item_title">Top Rated</string>
+    <string name="main_menu_favorites_item_title">Favorites</string>
+
+    <string name="movies_content_authority">com.elshadsm.popularmovies</string>
+
+    <string name="movie_posters_empty_message">There are no movies to show : (</string>
+    <string name="movie_details_mark_as_favorite">MARK AS FAVORITE</string>
 </resources>

@@ -15,4 +15,6 @@
     <dimen name="headline_text_size">24sp</dimen>
     <dimen name="medium_text_size">18sp</dimen>
     <dimen name="small_text_size">14sp</dimen>
+
+    <dimen name="add_favorite_star_size">48dp</dimen>
 </resources>
