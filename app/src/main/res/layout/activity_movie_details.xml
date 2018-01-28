@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/movie_details_header"
-            android:elevation="@dimen/size"
+            android:elevation="@dimen/size_s"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/size_xl"
             android:paddingLeft="@dimen/size_l"
@@ -59,14 +59,14 @@
                     android:id="@+id/movie_details_release_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size"
+                    android:layout_marginTop="@dimen/size_s"
                     android:textSize="@dimen/headline_text_size" />
 
                 <TextView
                     android:id="@+id/movie_details_vote_average"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size"
+                    android:layout_marginTop="@dimen/size_s"
                     android:textColor="@color/movie_details_average_vote_text_color"
                     android:textSize="@dimen/small_text_size" />
 
@@ -79,7 +79,7 @@
                     android:checked="false"
                     android:text=""
                     android:textOff=""
-                    android:textOn=""/>
+                    android:textOn="" />
 
             </LinearLayout>
 
@@ -87,11 +87,27 @@
 
         <TextView
             android:id="@+id/movie_details_overview"
+            style="@style/ContentSansSerifNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/size_l"
-            android:textColor="@color/primary_color"
-            android:textSize="@dimen/medium_text_size" />
+            android:layout_margin="@dimen/size_l" />
+
+        <TextView
+            android:id="@+id/reviews_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_l"
+            android:layout_marginRight="@dimen/size_l"
+            android:text="@string/movie_details_reviews_title"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/headline_text_size" />
+
+        <LinearLayout
+            android:id="@+id/review_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/size_l"/>
 
     </LinearLayout>
 

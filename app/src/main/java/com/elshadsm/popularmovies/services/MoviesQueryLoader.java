@@ -89,4 +89,3 @@ class MoviesQueryTaskLoader extends AsyncTaskLoader<List<Movie>> {
         }
     }
 }
-

@@ -11,4 +11,6 @@
 
     <string name="movie_posters_empty_message">There are no movies to show : (</string>
     <string name="movie_details_mark_as_favorite">MARK AS FAVORITE</string>
+
+    <string name="movie_details_reviews_title">Reviews</string>
 </resources>
