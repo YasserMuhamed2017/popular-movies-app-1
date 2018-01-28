@@ -65,7 +65,7 @@ public class ReviewsQueryLoader implements LoaderManager.LoaderCallbacks<List<Re
 
     @Override
     public void onLoadFinished(Loader<List<Review>> loader, List<Review> reviewList) {
-        if (reviewList == null) {
+        if (reviewList == null || reviewList.size() == 0) {
             reviewListLayout.setVisibility(View.GONE);
             reviewsTitle.setVisibility(View.GONE);
             Log.e(LOG_TAG, "review list is empty!");

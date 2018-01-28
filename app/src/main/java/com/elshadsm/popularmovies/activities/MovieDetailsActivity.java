@@ -20,7 +20,9 @@ import com.elshadsm.popularmovies.data.MoviesContract;
 import com.elshadsm.popularmovies.models.Constants;
 import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.models.Review;
+import com.elshadsm.popularmovies.models.Trailer;
 import com.elshadsm.popularmovies.services.ReviewsQueryLoader;
+import com.elshadsm.popularmovies.services.TrailersQueryLoader;
 import com.elshadsm.popularmovies.utils.DataUtil;
 import com.elshadsm.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import static com.elshadsm.popularmovies.models.Constants.MOVIES_QUERY_LOADER_FILTER_TYPE_EXTRA;
 import static com.elshadsm.popularmovies.models.Constants.REVIEWS_QUERY_LOADER_MOVIE_ID_EXTRA;
+import static com.elshadsm.popularmovies.models.Constants.TRAILERS_QUERY_LOADER_MOVIE_ID_EXTRA;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -37,7 +40,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private ToggleButton toggleButton;
     private Movie movie;
 
+    public static final int TRAILERS_QUERY_LOADER_ID = 141995;
     public static final int REVIEWS_QUERY_LOADER_ID = 511966;
+    private TrailersQueryLoader trailersQueryLoader;
     private ReviewsQueryLoader reviewsQueryLoader;
 
     @Override
@@ -56,6 +61,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         overview = findViewById(R.id.movie_details_overview);
         poster = findViewById(R.id.movie_details_poster);
         toggleButton = findViewById(R.id.movie_details_mark_as_favorite);
+        trailersQueryLoader = new TrailersQueryLoader(MovieDetailsActivity.this, this);
         reviewsQueryLoader = new ReviewsQueryLoader(MovieDetailsActivity.this, this);
     }
 
@@ -66,6 +72,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             assert data != null;
             movie = data.getParcelable(Constants.INTENT_EXTRA_NAME_MOVIE_DETAILS);
             setMovieDetails();
+            setTrailers();
             setReviews();
         }
     }
@@ -127,6 +134,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
         String selection = MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + "=?";
         String[] selectionArgs = {String.valueOf(movie.getId())};
         getContentResolver().delete(MoviesContract.MoviesEntry.CONTENT_URI, selection, selectionArgs);
+    }
+
+    private void setTrailers() {
+        Bundle bundle = new Bundle();
+        bundle.putLong(TRAILERS_QUERY_LOADER_MOVIE_ID_EXTRA, movie.getId());
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<List<Trailer>> loader = loaderManager.getLoader(TRAILERS_QUERY_LOADER_ID);
+        if (loader == null) {
+            loaderManager.initLoader(TRAILERS_QUERY_LOADER_ID, bundle, trailersQueryLoader);
+        } else {
+            loaderManager.restartLoader(TRAILERS_QUERY_LOADER_ID, bundle, trailersQueryLoader);
+        }
     }
 
     private void setReviews() {

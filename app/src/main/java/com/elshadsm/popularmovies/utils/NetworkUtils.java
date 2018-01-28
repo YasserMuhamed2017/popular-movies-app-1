@@ -26,6 +26,7 @@ public class NetworkUtils {
     private static final String MOVIE_DB_API_SECOND_PATH = "movie";
     private static final String MOVIE_DB_API_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private static final String MOVIE_DB_API_POSTER_SIZE = "w500";
+    private static final String MOVIE_DB_API_TRAILERS_PATH = "videos";
     private static final String MOVIE_DB_API_REVIEWS_PATH = "reviews";
     private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY_NAME = "api_key";
     // TODO: Use your own key instead of 'MovieDBConfig.API_KEY' in order to use movie DB API.
@@ -69,6 +70,24 @@ public class NetworkUtils {
         return MOVIE_DB_API_POSTER_BASE_URL + MOVIE_DB_API_POSTER_SIZE + "/" + posterPath;
     }
 
+    public static URL buildTrailersUrl(long id) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(MOVIE_DB_API_SCHEME)
+                .authority(MOVIE_DB_API_AUTHORITY)
+                .appendPath(MOVIE_DB_API_FIRST_PATH)
+                .appendPath(MOVIE_DB_API_SECOND_PATH)
+                .appendPath(Long.toString(id))
+                .appendPath(MOVIE_DB_API_TRAILERS_PATH)
+                .appendQueryParameter(MOVIE_DB_API_QUERY_PARAMETER_API_KEY_NAME, MOVIE_DB_API_QUERY_PARAMETER_API_KEY_VALUE);
+        URL url = null;
+        try {
+            url = new URL(builder.build().toString());
+        } catch (MalformedURLException e) {
+            Log.e(LOG_TAG, "buildTrailersUrl - id: " + id, e);
+        }
+        return url;
+    }
+
     public static URL buildReviewsUrl(long id) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(MOVIE_DB_API_SCHEME)
@@ -82,7 +101,7 @@ public class NetworkUtils {
         try {
             url = new URL(builder.build().toString());
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "id: " + id, e);
+            Log.e(LOG_TAG, "buildReviewsUrl - id: " + id, e);
         }
         return url;
     }

@@ -82,7 +82,7 @@ class MoviesQueryTaskLoader extends AsyncTaskLoader<List<Movie>> {
         URL moviesRequestUrl = NetworkUtils.buildUrl(filterType);
         try {
             String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
-            return JSONUtils.parseJson(jsonMoviesResponse);
+            return JSONUtils.parseMoviesJson(jsonMoviesResponse);
         } catch (Exception e) {
             Log.e(LOG_TAG, "filter type: " + filterType, e);
             return null;

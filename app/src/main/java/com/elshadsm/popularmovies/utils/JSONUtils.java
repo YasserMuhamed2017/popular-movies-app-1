@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.models.Review;
+import com.elshadsm.popularmovies.models.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,17 +31,23 @@ public class JSONUtils {
     private static final String TITLE_KEY = "title";
     private static final String VOTE_AVERAGE_KEY = "vote_average";
 
+    private static final String TRAILERS = "results";
+    private static final String KEY = "key";
+    private static final String NAME = "name";
+    private static final String SITE = "site";
+    private static final String TYPE = "type";
+
     private static final String REVIEWS = "results";
     private static final String AUTHOR = "author";
     private static final String CONTENT = "content";
     private static final String URL = "url";
 
-    public static List<Movie> parseJson(String json) throws JSONException {
+    public static List<Movie> parseMoviesJson(String json) throws JSONException {
         JSONObject responseJson = new JSONObject(json);
         if (responseJson.has(ERROR_STATUS_CODE)) {
             int errorCode = responseJson.getInt(ERROR_STATUS_CODE);
             String errorMesage = responseJson.getString(ERROR_STATUS_MESSAGE);
-            Log.e(LOG_TAG, errorMesage + " - error code: " + errorCode);
+            Log.e(LOG_TAG, errorMesage + " - parseMoviesJson - error code: " + errorCode);
         }
         JSONArray moviesArray = responseJson.getJSONArray(MOVIES);
         return parseMovieList(moviesArray);
@@ -67,12 +74,42 @@ public class JSONUtils {
         return currentMovie;
     }
 
+    public static List<Trailer> parseTrailersJson(String json) throws JSONException {
+        JSONObject responseJson = new JSONObject(json);
+        if (responseJson.has(ERROR_STATUS_CODE)) {
+            int errorCode = responseJson.getInt(ERROR_STATUS_CODE);
+            String errorMesage = responseJson.getString(ERROR_STATUS_MESSAGE);
+            Log.e(LOG_TAG, errorMesage + " - parseTrailersJson - error code: " + errorCode);
+        }
+        JSONArray trailersArray = responseJson.getJSONArray(TRAILERS);
+        return parseTrailerList(trailersArray);
+    }
+
+    private static List<Trailer> parseTrailerList(JSONArray trailerArray) throws JSONException {
+        List<Trailer> trailers = new ArrayList<>();
+        for (int i = 0; i < trailerArray.length(); i++) {
+            JSONObject trailer = trailerArray.getJSONObject(i);
+            Trailer currentTrailer = parseTrailer(trailer);
+            trailers.add(currentTrailer);
+        }
+        return trailers;
+    }
+
+    private static Trailer parseTrailer(JSONObject trailer) throws JSONException {
+        Trailer currentTrailer = new Trailer();
+        currentTrailer.setKey(trailer.getString(KEY));
+        currentTrailer.setName(trailer.getString(NAME));
+        currentTrailer.setSite(trailer.getString(SITE));
+        currentTrailer.setType(trailer.getString(TYPE));
+        return currentTrailer;
+    }
+
     public static List<Review> parseReviewsJson(String json) throws JSONException {
         JSONObject responseJson = new JSONObject(json);
         if (responseJson.has(ERROR_STATUS_CODE)) {
             int errorCode = responseJson.getInt(ERROR_STATUS_CODE);
             String errorMesage = responseJson.getString(ERROR_STATUS_MESSAGE);
-            Log.e(LOG_TAG, errorMesage + " - error code: " + errorCode);
+            Log.e(LOG_TAG, errorMesage + " - parseReviewsJson - error code: " + errorCode);
         }
         JSONArray reviewsArray = responseJson.getJSONArray(REVIEWS);
         return parseReviewList(reviewsArray);
