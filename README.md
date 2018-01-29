@@ -1,7 +1,7 @@
-#Popular Movies
+# Popular Movies
 The Popular Movies app was developed for the Udacity Android Developer Nanodegree Program. The app allows users to discover the most popular and the most rated movies playing. Additionally, users are able to get detailed information for every proper movie and save it as favorite.
 
-#Features:
+# Features:
 * Discover the most popular and the highest rated movies
 * Sort movies by most popular, by top rated or by favorites
 * Get detailed information for every movie
