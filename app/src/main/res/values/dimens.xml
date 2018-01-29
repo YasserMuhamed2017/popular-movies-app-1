@@ -19,7 +19,5 @@
 
     <dimen name="single_line_list_item_height">48dp</dimen>
 
-    <dimen name="play_trailer_icon_size">40dp</dimen>
-
     <dimen name="add_favorite_star_size">48dp</dimen>
 </resources>

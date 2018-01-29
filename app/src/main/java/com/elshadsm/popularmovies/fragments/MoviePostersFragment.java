@@ -40,9 +40,11 @@ public class MoviePostersFragment extends Fragment {
     private MoviePostersAdapter moviePostersAdapter;
     private FavoriteMoviePostersAdapter favoriteMoviePostersAdapter;
     private GridView gridView;
+    private TextView emptyMessageView;
 
-    public static final int MOVIES_QUERY_LOADER_ID = 11121990;
+    private static final int MOVIES_QUERY_LOADER_ID = 11121990;
     public static final int FAVORITE_MOVIES_LOADER_ID = 12121994;
+
     private MoviesQueryLoader moviesQueryLoader;
     private FavoriteMoviesCursorLoader favoriteMoviesCursorLoader;
 
@@ -113,12 +115,11 @@ public class MoviePostersFragment extends Fragment {
             return;
         }
         gridView = rootView.findViewById(R.id.movie_posters_grid);
-        TextView emptyMessageView = rootView.findViewById(R.id.empty_message_view);
-        gridView.setEmptyView(emptyMessageView);
+        emptyMessageView = rootView.findViewById(R.id.empty_message_view);
         moviePostersAdapter = new MoviePostersAdapter(activity);
-        moviesQueryLoader = new MoviesQueryLoader(context, moviePostersAdapter);
-        favoriteMoviePostersAdapter = new FavoriteMoviePostersAdapter(context, null, false);
-        favoriteMoviesCursorLoader = new FavoriteMoviesCursorLoader(context, favoriteMoviePostersAdapter);
+        moviesQueryLoader = new MoviesQueryLoader(context, moviePostersAdapter, this);
+        favoriteMoviePostersAdapter = new FavoriteMoviePostersAdapter(context);
+        favoriteMoviesCursorLoader = new FavoriteMoviesCursorLoader(context, favoriteMoviePostersAdapter, this);
     }
 
     private void registerEventHandlers() {
@@ -169,6 +170,11 @@ public class MoviePostersFragment extends Fragment {
         } else {
             loaderManager.restartLoader(MOVIES_QUERY_LOADER_ID, bundle, moviesQueryLoader);
         }
+    }
+
+    public void setGridViewEmptyView() {
+        emptyMessageView.setVisibility(View.VISIBLE);
+        gridView.setEmptyView(emptyMessageView);
     }
 
 }

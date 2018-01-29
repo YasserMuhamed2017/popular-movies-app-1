@@ -10,6 +10,7 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.elshadsm.popularmovies.adapters.MoviePostersAdapter;
+import com.elshadsm.popularmovies.fragments.MoviePostersFragment;
 import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.utils.JSONUtils;
 import com.elshadsm.popularmovies.utils.NetworkUtils;
@@ -27,12 +28,14 @@ public class MoviesQueryLoader implements LoaderManager.LoaderCallbacks<List<Mov
 
     private static final String LOG_TAG = MoviesQueryLoader.class.getSimpleName();
 
+    private final MoviePostersFragment moviePostersFragment;
     private final MoviePostersAdapter moviePostersAdapter;
     private final Context context;
 
-    public MoviesQueryLoader(@NonNull Context context, MoviePostersAdapter moviePostersAdapter) {
+    public MoviesQueryLoader(@NonNull Context context, MoviePostersAdapter moviePostersAdapter, MoviePostersFragment moviePostersFragment) {
         this.moviePostersAdapter = moviePostersAdapter;
         this.context = context;
+        this.moviePostersFragment = moviePostersFragment;
     }
 
     @Override
@@ -43,6 +46,7 @@ public class MoviesQueryLoader implements LoaderManager.LoaderCallbacks<List<Mov
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movieList) {
         if (movieList == null) {
+            moviePostersFragment.setGridViewEmptyView();
             Log.e(LOG_TAG, "movie list is empty!");
         } else {
             moviePostersAdapter.setMovieList(movieList);
@@ -62,7 +66,7 @@ class MoviesQueryTaskLoader extends AsyncTaskLoader<List<Movie>> {
 
     private final Bundle args;
 
-    public MoviesQueryTaskLoader(@NonNull Context context, Bundle args) {
+    MoviesQueryTaskLoader(@NonNull Context context, Bundle args) {
         super(context);
         this.args = args;
     }

@@ -25,9 +25,9 @@ import android.provider.BaseColumns;
 
 public class MoviesContract {
 
-    public static final String AUTHORITY = "com.elshadsm.popularmovies";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
-    public static final String PATH_MOVIES = "movies";
+    static final String AUTHORITY = "com.elshadsm.popularmovies";
+    static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+    static final String PATH_MOVIES = "movies";
 
     public static final class MoviesEntry implements BaseColumns {
 

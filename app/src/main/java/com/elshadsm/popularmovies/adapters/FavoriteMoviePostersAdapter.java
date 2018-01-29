@@ -30,18 +30,16 @@ import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 /**
  * Created by Elshad Seyidmammadov on 22.01.2018.
  */
 
 public class FavoriteMoviePostersAdapter extends CursorAdapter {
 
-    private LayoutInflater cursorInflater;
+    private final LayoutInflater cursorInflater;
 
-    public FavoriteMoviePostersAdapter(Context context, Cursor cursor, boolean autoRequery) {
-        super(context, cursor, autoRequery);
+    public FavoriteMoviePostersAdapter(Context context) {
+        super(context, null, false);
         cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

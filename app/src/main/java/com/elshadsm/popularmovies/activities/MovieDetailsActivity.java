@@ -7,11 +7,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -29,7 +26,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.elshadsm.popularmovies.models.Constants.MOVIES_QUERY_LOADER_FILTER_TYPE_EXTRA;
 import static com.elshadsm.popularmovies.models.Constants.REVIEWS_QUERY_LOADER_MOVIE_ID_EXTRA;
 import static com.elshadsm.popularmovies.models.Constants.TRAILERS_QUERY_LOADER_MOVIE_ID_EXTRA;
 
@@ -38,10 +34,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView title, releaseDate, voteAverage, overview;
     private ImageView poster;
     private ToggleButton toggleButton;
+
     private Movie movie;
 
-    public static final int TRAILERS_QUERY_LOADER_ID = 141995;
-    public static final int REVIEWS_QUERY_LOADER_ID = 511966;
+    private static final int TRAILERS_QUERY_LOADER_ID = 141995;
+    private static final int REVIEWS_QUERY_LOADER_ID = 511966;
+
     private TrailersQueryLoader trailersQueryLoader;
     private ReviewsQueryLoader reviewsQueryLoader;
 

@@ -32,12 +32,12 @@ import android.support.annotation.Nullable;
 
 public class MoviesProvider extends ContentProvider {
 
-    public final static int CODE_MOVIES = 100;
-    public final static int CODE_MOVIE_WITH_ID = 101;
-    public final static UriMatcher uriMatcher = buildUriMatcher();
+    private final static int CODE_MOVIES = 100;
+    private final static int CODE_MOVIE_WITH_ID = 101;
+    private final static UriMatcher uriMatcher = buildUriMatcher();
     private MoviesDbHelper dbHelper;
 
-    public static UriMatcher buildUriMatcher() {
+    private static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES, CODE_MOVIES);
         uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES + "/#", CODE_MOVIE_WITH_ID);
@@ -105,7 +105,7 @@ public class MoviesProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        int rowDeleted = 0;
+        int rowDeleted;
         try (final SQLiteDatabase database = dbHelper.getWritableDatabase()) {
             switch (uriMatcher.match(uri)) {
                 case CODE_MOVIES:

@@ -25,6 +25,7 @@ import android.support.v4.content.Loader;
 
 import com.elshadsm.popularmovies.adapters.FavoriteMoviePostersAdapter;
 import com.elshadsm.popularmovies.data.MoviesContract;
+import com.elshadsm.popularmovies.fragments.MoviePostersFragment;
 
 import static com.elshadsm.popularmovies.fragments.MoviePostersFragment.FAVORITE_MOVIES_LOADER_ID;
 
@@ -34,12 +35,14 @@ import static com.elshadsm.popularmovies.fragments.MoviePostersFragment.FAVORITE
 
 public class FavoriteMoviesCursorLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private Context context;
-    private FavoriteMoviePostersAdapter favoriteMoviePostersAdapter;
+    private final FavoriteMoviePostersAdapter favoriteMoviePostersAdapter;
+    private final MoviePostersFragment moviePostersFragment;
+    private final Context context;
 
-    public FavoriteMoviesCursorLoader(Context context, FavoriteMoviePostersAdapter favoriteMoviePostersAdapter) {
+    public FavoriteMoviesCursorLoader(Context context, FavoriteMoviePostersAdapter favoriteMoviePostersAdapter, MoviePostersFragment moviePostersFragment) {
         this.context = context;
         this.favoriteMoviePostersAdapter = favoriteMoviePostersAdapter;
+        this.moviePostersFragment = moviePostersFragment;
     }
 
     @Override
@@ -59,6 +62,9 @@ public class FavoriteMoviesCursorLoader implements LoaderManager.LoaderCallbacks
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor.getCount() == 0) {
+            moviePostersFragment.setGridViewEmptyView();
+        }
         favoriteMoviePostersAdapter.swapCursor(cursor);
     }
 

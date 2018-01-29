@@ -52,9 +52,9 @@ public class TrailersQueryLoader implements LoaderManager.LoaderCallbacks<List<T
 
     private static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
+    private final LinearLayout trailerListLayout;
+    private final TextView trailersTitle;
     private final Context context;
-    private LinearLayout trailerListLayout;
-    private TextView trailersTitle;
 
     public TrailersQueryLoader(@NonNull Context context, Activity activity) {
         this.context = context;

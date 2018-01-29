@@ -10,10 +10,8 @@
     <string name="movies_content_authority">com.elshadsm.popularmovies</string>
 
     <string name="movie_posters_empty_message">There are no movies to show : (</string>
-    <string name="movie_details_mark_as_favorite">MARK AS FAVORITE</string>
 
     <string name="movie_details_trailers_title">Trailers</string>
-    <string name="movie_details_trailer_play_icon_content_description">Click on ot to play the trailer</string>
 
     <string name="movie_details_reviews_title">Reviews</string>
 </resources>

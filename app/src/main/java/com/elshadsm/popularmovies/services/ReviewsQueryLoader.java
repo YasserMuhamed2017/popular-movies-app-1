@@ -49,8 +49,8 @@ public class ReviewsQueryLoader implements LoaderManager.LoaderCallbacks<List<Re
     private static final String LOG_TAG = ReviewsQueryLoader.class.getSimpleName();
 
     private final Context context;
-    private LinearLayout reviewListLayout;
-    private TextView reviewsTitle;
+    private final LinearLayout reviewListLayout;
+    private final TextView reviewsTitle;
 
     public ReviewsQueryLoader(@NonNull Context context, Activity activity) {
         this.context = context;
