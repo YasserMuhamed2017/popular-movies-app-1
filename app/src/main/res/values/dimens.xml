@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="grid_item_movie_poster_spacing">0dp</dimen>
-    <dimen name="grid_item_movie_poster_width">168dp</dimen>
-    <dimen name="grid_item_movie_poster_height">224dp</dimen>
+    <dimen name="grid_item_movie_poster_width">168dp</dimen>21
+    <dimen name="grid_item_movie_poster_height">280dp</dimen>28
 
     <dimen name="size_xl">28dp</dimen>
     <dimen name="size_l">16dp</dimen>
     <dimen name="size">8dp</dimen>
     <dimen name="size_s">4dp</dimen>
 
-    <dimen name="movie_details_image_width">147dp</dimen>
-    <dimen name="movie_details_image_height">196dp</dimen>
+    <dimen name="movie_details_image_width">168dp</dimen>
+    <dimen name="movie_details_image_height">252dp</dimen>
 
     <dimen name="header_text_size">34sp</dimen>
     <dimen name="headline_text_size">24sp</dimen>
@@ -20,4 +20,7 @@
     <dimen name="single_line_list_item_height">48dp</dimen>
 
     <dimen name="add_favorite_star_size">48dp</dimen>
+
+    <integer name="grid_view_landscape_column_number">4</integer>
+    <integer name="grid_view_portrait_column_number">2</integer>
 </resources>

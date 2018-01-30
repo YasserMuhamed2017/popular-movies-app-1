@@ -3,12 +3,15 @@ package com.elshadsm.popularmovies.activities;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -31,6 +34,7 @@ import static com.elshadsm.popularmovies.models.Constants.TRAILERS_QUERY_LOADER_
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    ScrollView scrollView;
     private TextView title, releaseDate, voteAverage, overview;
     private ImageView poster;
     private ToggleButton toggleButton;
@@ -43,6 +47,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TrailersQueryLoader trailersQueryLoader;
     private ReviewsQueryLoader reviewsQueryLoader;
 
+    private static final String SCROLL_POSITION_KEY = "scroll_position_key";
+
+    private Bundle savedInstanceState;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray(SCROLL_POSITION_KEY, new int[]{scrollView.getScrollX(), scrollView.getScrollY()});
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +64,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
         initWidgets();
         applyWidgetsValue();
         registerEventHandlers();
+        this.savedInstanceState = savedInstanceState;
     }
 
     private void initWidgets() {
+        scrollView = findViewById(R.id.scroll_view);
         title = findViewById(R.id.movie_details_title);
         releaseDate = findViewById(R.id.movie_details_release_date);
         voteAverage = findViewById(R.id.movie_details_vote_average);
@@ -156,6 +172,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
         } else {
             loaderManager.restartLoader(REVIEWS_QUERY_LOADER_ID, bundle, reviewsQueryLoader);
         }
+    }
+
+    public void restoreViewState() {
+        if (savedInstanceState == null) {
+            return;
+        }
+        final int[] position = savedInstanceState.getIntArray(SCROLL_POSITION_KEY);
+        if (position == null) {
+            return;
+        }
+        scrollView.post(new Runnable() {
+            public void run() {
+                scrollView.scrollTo(position[0], position[1]);
+            }
+        });
     }
 
 }

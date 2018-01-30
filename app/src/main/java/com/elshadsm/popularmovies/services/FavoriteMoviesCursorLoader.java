@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
+import android.widget.TextView;
 
 import com.elshadsm.popularmovies.adapters.FavoriteMoviePostersAdapter;
 import com.elshadsm.popularmovies.data.MoviesContract;
@@ -36,13 +38,14 @@ import static com.elshadsm.popularmovies.fragments.MoviePostersFragment.FAVORITE
 public class FavoriteMoviesCursorLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final FavoriteMoviePostersAdapter favoriteMoviePostersAdapter;
-    private final MoviePostersFragment moviePostersFragment;
+    private final TextView emptyMessageView;
     private final Context context;
 
-    public FavoriteMoviesCursorLoader(Context context, FavoriteMoviePostersAdapter favoriteMoviePostersAdapter, MoviePostersFragment moviePostersFragment) {
+    public FavoriteMoviesCursorLoader(Context context, FavoriteMoviePostersAdapter favoriteMoviePostersAdapter, TextView emptyMessageView) {
         this.context = context;
         this.favoriteMoviePostersAdapter = favoriteMoviePostersAdapter;
-        this.moviePostersFragment = moviePostersFragment;
+        this.emptyMessageView = emptyMessageView;
+        emptyMessageView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -62,9 +65,7 @@ public class FavoriteMoviesCursorLoader implements LoaderManager.LoaderCallbacks
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor.getCount() == 0) {
-            moviePostersFragment.setGridViewEmptyView();
-        }
+        emptyMessageView.setVisibility(cursor.getCount() == 0 ? View.VISIBLE : View.INVISIBLE);
         favoriteMoviePostersAdapter.swapCursor(cursor);
     }
 

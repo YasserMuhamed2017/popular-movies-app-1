@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elshadsm.popularmovies.R;
+import com.elshadsm.popularmovies.activities.MovieDetailsActivity;
 import com.elshadsm.popularmovies.models.Trailer;
 import com.elshadsm.popularmovies.utils.JSONUtils;
 import com.elshadsm.popularmovies.utils.NetworkUtils;
@@ -55,11 +56,13 @@ public class TrailersQueryLoader implements LoaderManager.LoaderCallbacks<List<T
     private final LinearLayout trailerListLayout;
     private final TextView trailersTitle;
     private final Context context;
+    private final MovieDetailsActivity activity;
 
-    public TrailersQueryLoader(@NonNull Context context, Activity activity) {
+    public TrailersQueryLoader(@NonNull Context context, MovieDetailsActivity activity) {
         this.context = context;
         trailerListLayout = activity.findViewById(R.id.trailer_list_layout);
         trailersTitle = activity.findViewById(R.id.trailers_title);
+        this.activity = activity;
     }
 
     @Override
@@ -77,6 +80,7 @@ public class TrailersQueryLoader implements LoaderManager.LoaderCallbacks<List<T
             for (Trailer trailer : trailerList) {
                 trailerListLayout.addView(getTrailerView(trailer));
             }
+            activity.restoreViewState();
         }
     }
 

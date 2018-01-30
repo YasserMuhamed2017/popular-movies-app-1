@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elshadsm.popularmovies.R;
+import com.elshadsm.popularmovies.activities.MovieDetailsActivity;
 import com.elshadsm.popularmovies.models.Review;
 import com.elshadsm.popularmovies.utils.JSONUtils;
 import com.elshadsm.popularmovies.utils.NetworkUtils;
@@ -51,11 +52,13 @@ public class ReviewsQueryLoader implements LoaderManager.LoaderCallbacks<List<Re
     private final Context context;
     private final LinearLayout reviewListLayout;
     private final TextView reviewsTitle;
+    private final MovieDetailsActivity activity;
 
-    public ReviewsQueryLoader(@NonNull Context context, Activity activity) {
+    public ReviewsQueryLoader(@NonNull Context context, MovieDetailsActivity activity) {
         this.context = context;
         reviewListLayout = activity.findViewById(R.id.review_list_layout);
         reviewsTitle = activity.findViewById(R.id.reviews_title);
+        this.activity = activity;
     }
 
     @Override
@@ -73,6 +76,7 @@ public class ReviewsQueryLoader implements LoaderManager.LoaderCallbacks<List<Re
             for (Review review : reviewList) {
                 reviewListLayout.addView(getReviewView(review));
             }
+            activity.restoreViewState();
         }
     }
 

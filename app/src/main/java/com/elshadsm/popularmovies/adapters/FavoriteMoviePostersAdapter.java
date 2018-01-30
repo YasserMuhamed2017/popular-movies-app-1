@@ -17,51 +17,94 @@
 package com.elshadsm.popularmovies.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 
 import com.elshadsm.popularmovies.R;
+import com.elshadsm.popularmovies.activities.MovieDetailsActivity;
 import com.elshadsm.popularmovies.data.MoviesContract;
+import com.elshadsm.popularmovies.fragments.MoviePostersFragment;
 import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
+
+import static com.elshadsm.popularmovies.models.Constants.INTENT_EXTRA_NAME_MOVIE_DETAILS;
 
 /**
  * Created by Elshad Seyidmammadov on 22.01.2018.
  */
 
-public class FavoriteMoviePostersAdapter extends CursorAdapter {
+public class FavoriteMoviePostersAdapter extends RecyclerView.Adapter<FavoriteMoviePostersAdapter.FavoriteMoviePostersAdapterViewHolder> {
 
-    private final LayoutInflater cursorInflater;
+    private Cursor cursor;
 
-    public FavoriteMoviePostersAdapter(Context context) {
-        super(context, null, false);
-        cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private MoviePostersFragment moviePostersFragment;
+
+    public FavoriteMoviePostersAdapter(MoviePostersFragment moviePostersFragment) {
+        this.moviePostersFragment = moviePostersFragment;
+    }
+
+    public void swapCursor(Cursor cursor) {
+        if (this.cursor != null) {
+            this.cursor.close();
+        }
+        this.cursor = cursor;
+        if (cursor != null) {
+            notifyDataSetChanged();
+        }
+        moviePostersFragment.restoreViewState();
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return cursorInflater.inflate(R.layout.movie_poster_item, parent, false);
+    public FavoriteMoviePostersAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.movie_poster_item, parent, false);
+        return new FavoriteMoviePostersAdapterViewHolder(view);
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void onBindViewHolder(FavoriteMoviePostersAdapterViewHolder holder, int position) {
+        cursor.moveToPosition(position);
         String posterPath = cursor.getString(cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_POSTER_PATH));
-        ImageView imageView = view.findViewById(R.id.movie_poster);
-        Picasso.with(context)
+        Picasso.with(holder.poster.getContext())
                 .load(NetworkUtils.buildPosterUrl(posterPath))
                 .placeholder(R.drawable.movie_poster_placeholder)
-                .error(R.drawable.movie_poster_error)
-                .into(imageView);
+                .into(holder.poster);
     }
 
     @Override
-    public Movie getItem(int position) {
-        Cursor cursor = (Cursor) super.getItem(position);
+    public int getItemCount() {
+        return cursor == null ? 0 : cursor.getCount();
+    }
+
+
+    public class FavoriteMoviePostersAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        ImageView poster;
+
+        FavoriteMoviePostersAdapterViewHolder(View view) {
+            super(view);
+            view.setOnClickListener(this);
+            poster = view.findViewById(R.id.movie_poster);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, MovieDetailsActivity.class);
+            Movie selectedMovie = getMovieFromCursor(getAdapterPosition());
+            intent.putExtra(INTENT_EXTRA_NAME_MOVIE_DETAILS, selectedMovie);
+            context.startActivity(intent);
+        }
+    }
+
+    private Movie getMovieFromCursor(int position) {
+        cursor.moveToPosition(position);
         Movie movie = new Movie();
         movie.setId(cursor.getLong(cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_MOVIE_ID)));
         movie.setTitle(cursor.getString(cursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_TITLE)));

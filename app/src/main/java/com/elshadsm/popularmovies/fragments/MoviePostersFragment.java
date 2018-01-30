@@ -2,13 +2,17 @@ package com.elshadsm.popularmovies.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,8 +43,8 @@ public class MoviePostersFragment extends Fragment {
 
     private MoviePostersAdapter moviePostersAdapter;
     private FavoriteMoviePostersAdapter favoriteMoviePostersAdapter;
-    private GridView gridView;
-    private TextView emptyMessageView;
+
+    private RecyclerView recyclerView;
 
     private static final int MOVIES_QUERY_LOADER_ID = 11121990;
     public static final int FAVORITE_MOVIES_LOADER_ID = 12121994;
@@ -52,7 +56,10 @@ public class MoviePostersFragment extends Fragment {
     private static final String FILTER_TYPE_TOP_RATED = "top_rated";
 
     private static final String SELECTED_ACTION_ID_KEY = "selected_action_id";
+    private static final String SAVED_LAYOUT_MANAGER_KEY = "saved_layout_manager";
     private static int selectedActionId = R.id.action_popular;
+
+    private Bundle savedInstanceState;
 
     public MoviePostersFragment() {
         // Required empty public constructor
@@ -67,6 +74,7 @@ public class MoviePostersFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt(SELECTED_ACTION_ID_KEY, selectedActionId);
+        outState.putParcelable(SAVED_LAYOUT_MANAGER_KEY, recyclerView.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
     }
 
@@ -74,7 +82,7 @@ public class MoviePostersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_posters, container, false);
         applyConfiguration(rootView);
-        registerEventHandlers();
+        this.savedInstanceState = savedInstanceState;
         if (savedInstanceState == null) {
             applyPopularConfiguration();
         } else {
@@ -114,45 +122,38 @@ public class MoviePostersFragment extends Fragment {
         if (activity == null || context == null) {
             return;
         }
-        gridView = rootView.findViewById(R.id.movie_posters_grid);
-        emptyMessageView = rootView.findViewById(R.id.empty_message_view);
-        moviePostersAdapter = new MoviePostersAdapter(activity);
-        moviesQueryLoader = new MoviesQueryLoader(context, moviePostersAdapter, this);
-        favoriteMoviePostersAdapter = new FavoriteMoviePostersAdapter(context);
-        favoriteMoviesCursorLoader = new FavoriteMoviesCursorLoader(context, favoriteMoviePostersAdapter, this);
+        TextView emptyMessageView = rootView.findViewById(R.id.empty_message_view);
+        recyclerView = rootView.findViewById(R.id.movie_posters_recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, getGridLayoutSpan()));
+        recyclerView.setHasFixedSize(true);
+        moviePostersAdapter = new MoviePostersAdapter(this);
+        moviesQueryLoader = new MoviesQueryLoader(context, moviePostersAdapter, emptyMessageView);
+        favoriteMoviePostersAdapter = new FavoriteMoviePostersAdapter(this);
+        favoriteMoviesCursorLoader = new FavoriteMoviesCursorLoader(context, favoriteMoviePostersAdapter, emptyMessageView);
     }
 
-    private void registerEventHandlers() {
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-                startMovieDetailsActivity(view, index);
-            }
-        });
-    }
 
-    private void startMovieDetailsActivity(View view, int index) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, MovieDetailsActivity.class);
-        Movie selectedMovie = (Movie) gridView.getAdapter().getItem(index);
-        intent.putExtra(INTENT_EXTRA_NAME_MOVIE_DETAILS, selectedMovie);
-        context.startActivity(intent);
+    private int getGridLayoutSpan() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return getResources().getInteger(R.integer.grid_view_landscape_column_number);
+        }
+        return getResources().getInteger(R.integer.grid_view_portrait_column_number);
     }
 
     private void applyTopRatedConfiguration() {
-        gridView.setAdapter(moviePostersAdapter);
+        recyclerView.setAdapter(moviePostersAdapter);
         selectedActionId = R.id.action_top_rated;
         setMoviePosters(FILTER_TYPE_TOP_RATED);
     }
 
     private void applyPopularConfiguration() {
-        gridView.setAdapter(moviePostersAdapter);
+        recyclerView.setAdapter(moviePostersAdapter);
         selectedActionId = R.id.action_popular;
         setMoviePosters(FILTER_TYPE_POPULAR);
     }
 
     private void applyFavoritesConfiguration() {
-        gridView.setAdapter(favoriteMoviePostersAdapter);
+        recyclerView.setAdapter(favoriteMoviePostersAdapter);
         selectedActionId = R.id.action_favorites;
         assert getActivity() != null;
         getActivity().getSupportLoaderManager()
@@ -172,9 +173,11 @@ public class MoviePostersFragment extends Fragment {
         }
     }
 
-    public void setGridViewEmptyView() {
-        emptyMessageView.setVisibility(View.VISIBLE);
-        gridView.setEmptyView(emptyMessageView);
+    public void restoreViewState() {
+        if (savedInstanceState != null) {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER_KEY);
+            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
     }
 
 }

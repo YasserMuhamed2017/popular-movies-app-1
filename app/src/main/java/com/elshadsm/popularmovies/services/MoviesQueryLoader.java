@@ -8,6 +8,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.elshadsm.popularmovies.adapters.MoviePostersAdapter;
 import com.elshadsm.popularmovies.fragments.MoviePostersFragment;
@@ -28,14 +30,15 @@ public class MoviesQueryLoader implements LoaderManager.LoaderCallbacks<List<Mov
 
     private static final String LOG_TAG = MoviesQueryLoader.class.getSimpleName();
 
-    private final MoviePostersFragment moviePostersFragment;
     private final MoviePostersAdapter moviePostersAdapter;
+    private final TextView emptyMessageView;
     private final Context context;
 
-    public MoviesQueryLoader(@NonNull Context context, MoviePostersAdapter moviePostersAdapter, MoviePostersFragment moviePostersFragment) {
+    public MoviesQueryLoader(@NonNull Context context, MoviePostersAdapter moviePostersAdapter, TextView emptyMessageView) {
         this.moviePostersAdapter = moviePostersAdapter;
         this.context = context;
-        this.moviePostersFragment = moviePostersFragment;
+        this.emptyMessageView = emptyMessageView;
+        emptyMessageView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -46,9 +49,10 @@ public class MoviesQueryLoader implements LoaderManager.LoaderCallbacks<List<Mov
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movieList) {
         if (movieList == null) {
-            moviePostersFragment.setGridViewEmptyView();
+            emptyMessageView.setVisibility(View.VISIBLE);
             Log.e(LOG_TAG, "movie list is empty!");
         } else {
+            emptyMessageView.setVisibility(View.INVISIBLE);
             moviePostersAdapter.setMovieList(movieList);
         }
     }
