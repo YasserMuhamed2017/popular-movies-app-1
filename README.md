@@ -10,7 +10,7 @@ The Popular Movies app was developed for the Udacity Android Developer Nanodegre
 * Mark movies as favorites
 
 # Note
-This app uses The Movie Database API to retrieve movies data. You must provide your own API key in order to run the functional app. When you get it, find "MovieDBConfig.API_KEY" in the source and replace it with your own key. 
+This app uses The Movie Database API to retrieve movies data. You must provide your own API key in order to run the functional app. When you get it, find "BuildConfig.MOVIE_DB_API_KEY" in the source and replace it with your own key. 
 
 # Screens
 <img src="https://user-images.githubusercontent.com/13982125/35624157-98b9f7e6-06a7-11e8-81ac-24161207764b.png" width="275" height="556">
