@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.elshadsm.popularmovies.adapters.MoviePostersAdapter;
-import com.elshadsm.popularmovies.fragments.MoviePostersFragment;
 import com.elshadsm.popularmovies.models.Movie;
 import com.elshadsm.popularmovies.utils.JSONUtils;
 import com.elshadsm.popularmovies.utils.NetworkUtils;

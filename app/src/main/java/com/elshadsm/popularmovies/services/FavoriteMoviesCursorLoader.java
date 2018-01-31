@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.elshadsm.popularmovies.adapters.FavoriteMoviePostersAdapter;
 import com.elshadsm.popularmovies.data.MoviesContract;
-import com.elshadsm.popularmovies.fragments.MoviePostersFragment;
 
 import static com.elshadsm.popularmovies.fragments.MoviePostersFragment.FAVORITE_MOVIES_LOADER_ID;
 

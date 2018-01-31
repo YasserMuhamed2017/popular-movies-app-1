@@ -3,8 +3,6 @@ package com.elshadsm.popularmovies.activities;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +32,7 @@ import static com.elshadsm.popularmovies.models.Constants.TRAILERS_QUERY_LOADER_
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
-    ScrollView scrollView;
+    private ScrollView scrollView;
     private TextView title, releaseDate, voteAverage, overview;
     private ImageView poster;
     private ToggleButton toggleButton;

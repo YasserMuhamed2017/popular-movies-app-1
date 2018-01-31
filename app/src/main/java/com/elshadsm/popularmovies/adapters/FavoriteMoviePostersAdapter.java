@@ -43,7 +43,7 @@ public class FavoriteMoviePostersAdapter extends RecyclerView.Adapter<FavoriteMo
 
     private Cursor cursor;
 
-    private MoviePostersFragment moviePostersFragment;
+    private final MoviePostersFragment moviePostersFragment;
 
     public FavoriteMoviePostersAdapter(MoviePostersFragment moviePostersFragment) {
         this.moviePostersFragment = moviePostersFragment;
@@ -85,7 +85,7 @@ public class FavoriteMoviePostersAdapter extends RecyclerView.Adapter<FavoriteMo
 
     public class FavoriteMoviePostersAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView poster;
+        final ImageView poster;
 
         FavoriteMoviePostersAdapterViewHolder(View view) {
             super(view);

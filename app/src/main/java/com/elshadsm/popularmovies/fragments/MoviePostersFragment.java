@@ -1,7 +1,6 @@
 package com.elshadsm.popularmovies.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,12 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.elshadsm.popularmovies.R;
-import com.elshadsm.popularmovies.activities.MovieDetailsActivity;
 import com.elshadsm.popularmovies.adapters.FavoriteMoviePostersAdapter;
 import com.elshadsm.popularmovies.adapters.MoviePostersAdapter;
 import com.elshadsm.popularmovies.models.Movie;
@@ -33,7 +29,6 @@ import com.elshadsm.popularmovies.services.MoviesQueryLoader;
 
 import java.util.List;
 
-import static com.elshadsm.popularmovies.models.Constants.INTENT_EXTRA_NAME_MOVIE_DETAILS;
 import static com.elshadsm.popularmovies.models.Constants.MOVIES_QUERY_LOADER_FILTER_TYPE_EXTRA;
 
 /**

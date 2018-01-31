@@ -16,7 +16,6 @@
 
 package com.elshadsm.popularmovies.services;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

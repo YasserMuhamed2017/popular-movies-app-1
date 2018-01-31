@@ -3,8 +3,6 @@ package com.elshadsm.popularmovies.utils;
 import android.net.Uri;
 import android.util.Log;
 
-import com.elshadsm.popularmovies.models.MovieDBConfig;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -30,7 +28,7 @@ public class NetworkUtils {
     private static final String MOVIE_DB_API_REVIEWS_PATH = "reviews";
     private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY_NAME = "api_key";
     // TODO: Use your own key instead of 'MovieDBConfig.API_KEY' in order to use movie DB API.
-    private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY_VALUE = MovieDBConfig.API_KEY;
+    private static final String MOVIE_DB_API_QUERY_PARAMETER_API_KEY_VALUE = "MovieDBConfig.API_KEY";
 
     public static URL buildUrl(String filterType) {
         Uri.Builder builder = new Uri.Builder();

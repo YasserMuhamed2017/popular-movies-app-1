@@ -13,11 +13,11 @@ The Popular Movies app was developed for the Udacity Android Developer Nanodegre
 This app uses The Movie Database API to retrieve movies data. You must provide your own API key in order to run the functional app. When you get it, find "MovieDBConfig.API_KEY" in the source and replace it with your own key. 
 
 # Screens
-<img src="https://user-images.githubusercontent.com/13982125/35525032-c048ee0a-053c-11e8-942d-56fca1e9001f.png" width="275" height="556">
+<img src="https://user-images.githubusercontent.com/13982125/35624157-98b9f7e6-06a7-11e8-81ac-24161207764b.png" width="275" height="556">
 
-<img src="https://user-images.githubusercontent.com/13982125/35525061-ded7b5cc-053c-11e8-8308-bf83ff35f053.png" width="275" height="556">
+<img src="https://user-images.githubusercontent.com/13982125/35624178-a71f5c36-06a7-11e8-8a58-09585fa31f77.png" width="275" height="556">
 
-<img src="https://user-images.githubusercontent.com/13982125/35525081-ea344e1c-053c-11e8-9e81-1db0370e8365.png" width="275" height="556">
+<img src="https://user-images.githubusercontent.com/13982125/35624203-b9ab7d26-06a7-11e8-8625-d15c74a087ab.png" width="275" height="556">
 
 Copyright (c) 2018 Elshad Seyidmammadov
 
